@@ -2,7 +2,7 @@
 title: 'README'
 type: 'feature'
 created: '2026-09-27'
-status: 'in-progress'
+status: 'done'
 route: 'oneshot'
 review_loop_iteration: 0
 baseline_commit: '067f235cd020e2353b15425f9ef9c37dd9b9c3ce'
@@ -26,8 +26,13 @@ context:
 Escrito diretamente nesta sessão (rota `oneshot`), sem subagente de implementação separado.
 Referencia `architecture.md` e `stack.md` (decisões técnicas, evolução futura) e
 `docs/data-exploration.md` (constraints vindas do dado) por link, em vez de gerar texto genérico
-novo, conforme pedido. Validado com um clone limpo real (não só leitura do arquivo) — ver
-Verification abaixo.
+novo, conforme pedido. Validado com um clone limpo real (`git clone` local para `/tmp`, não só
+leitura do arquivo): `docker compose up --build` funcionou de ponta a ponta (front estático, proxy
+`/api`, valores de referência batendo) e a receita de teste do back-end (`npm install`,
+`npm run db:prepare`, `npm test`) rodou verbatim com 27/27 testes passando. A receita completa do
+front-end (`npm install && npm test && npx playwright install && npx playwright test`) não foi
+re-executada no clone limpo por tempo de sessão — já validada nas Stories 2-3 e sem mudança de
+comportamento nesta story, que só editou o README.
 
 ## Review Triage Log
 
