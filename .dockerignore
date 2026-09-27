@@ -5,4 +5,5 @@ _bmad
 docs
 backend/data
 backend/dist
+frontend/dist
 .claude
