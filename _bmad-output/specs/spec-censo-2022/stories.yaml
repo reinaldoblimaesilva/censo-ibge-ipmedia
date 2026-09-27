@@ -1,0 +1,69 @@
+- id: "1"
+  title: API + banco + esqueleto Docker
+  description: >-
+    Prepara o banco no build (índices, tabelas agregadas, sigla UF, nome
+    normalizado), implementa as rotas Fastify de busca de município e ranking
+    paginado por UF com validação de schema, cobre com testes de back-end
+    (Vitest), e sobe um Dockerfile por serviço + docker-compose.yml mínimo
+    para que `docker compose up --build` já funcione de ponta a ponta com a
+    API respondendo. Cobre CAP-3 e parte de CAP-5 de SPEC.md.
+  spec_checkpoint: false
+  done_checkpoint: true
+  invoke_dev_with: >-
+    O Dockerfile do back-end e o docker-compose.yml não precisam ser
+    otimizados nesta story, só precisam funcionar; a Story 4 cuida do
+    multi-stage final e do nginx.
+- id: "2"
+  title: Tela Buscar cidade
+  description: >-
+    Autocomplete de município com debounce, sempre exibindo "Nome — UF"
+    (há 232 nomes duplicados no Brasil); ao selecionar, mostra os agregados
+    do município (população, setores, área, densidade, urbanos/rurais,
+    sexo). Cobre CAP-1 de SPEC.md, com testes de componente e E2E dessa
+    tela.
+  spec_checkpoint: false
+  done_checkpoint: true
+  invoke_dev_with: >-
+    Reutilize o endpoint de busca de município já criado na Story 1, sem
+    duplicar lógica de agregação. Exibição no formato "Nome — UF".
+    Autocomplete com debounce.
+- id: "3"
+  title: Tela Buscar estado
+  description: >-
+    Seleção de UF mostrando os agregados da UF (população, área,
+    densidade) e o ranking paginado de municípios por densidade
+    decrescente. Cobre CAP-2 de SPEC.md, com testes de componente e E2E
+    dessa tela.
+  spec_checkpoint: false
+  done_checkpoint: true
+  invoke_dev_with: >-
+    Reutilize o endpoint de ranking paginado já criado na Story 1. A UI
+    precisa lidar bem com extremos de tamanho: MG tem 853 municípios
+    (paginação real necessária) e RR/DF têm poucos (não mostrar paginação
+    supérflua nesses casos).
+- id: "4"
+  title: "Docker: build final + nginx"
+  description: >-
+    Finaliza o empacotamento: build multi-stage otimizado, nginx servindo
+    o front com proxy /api sem CORS, e verificação de ponta a ponta com as
+    duas telas funcionando via `docker compose up --build` numa máquina
+    limpa. Cobre o restante de CAP-5 de SPEC.md.
+  spec_checkpoint: false
+  done_checkpoint: true
+  invoke_dev_with: >-
+    Parte do docker-compose.yml e do Dockerfile do back-end já existem da
+    Story 1 (esqueleto); ajuste-os em vez de recriar do zero.
+- id: "5"
+  title: README
+  description: >-
+    Documenta instalação/execução, decisões técnicas e "o que faria
+    diferente com mais tempo". Cobre CAP-6 de SPEC.md.
+  spec_checkpoint: false
+  done_checkpoint: true
+  invoke_dev_with: >-
+    As seções de decisões técnicas e de evolução futura devem referenciar
+    diretamente o conteúdo já registrado em architecture.md (justificativa
+    de não usar Clean Architecture/DDD completo) e docs/data-exploration.md
+    (achados do dado), em vez de gerar texto genérico novo. Valide as
+    instruções de instalação como se fossem executadas num clone limpo, sem
+    nenhum passo manual.
