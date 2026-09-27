@@ -1,0 +1,8 @@
+.git
+**/node_modules
+_bmad-output
+_bmad
+docs
+backend/data
+backend/dist
+.claude

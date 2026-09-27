@@ -1,0 +1,25 @@
+{
+  "name": "censo-2022-backend",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "API do Censo 2022 por município e UF",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/server.js",
+    "db:prepare": "tsx src/db/prepare.ts",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "better-sqlite3": "^13.0.3",
+    "fastify": "^5.12.5"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^9.6.0",
+    "@types/node": "^22",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.2"
+  }
+}
