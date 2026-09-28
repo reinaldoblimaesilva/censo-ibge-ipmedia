@@ -30,9 +30,9 @@ novo, conforme pedido. Validado com um clone limpo real (`git clone` local para 
 leitura do arquivo): `docker compose up --build` funcionou de ponta a ponta (front estático, proxy
 `/api`, valores de referência batendo) e a receita de teste do back-end (`npm install`,
 `npm run db:prepare`, `npm test`) rodou verbatim com 27/27 testes passando. A receita completa do
-front-end (`npm install && npm test && npx playwright install && npx playwright test`) não foi
-re-executada no clone limpo por tempo de sessão — já validada nas Stories 2-3 e sem mudança de
-comportamento nesta story, que só editou o README.
+front-end (`npm install`, `npm test` — 28/28 —, `npx playwright install chromium`,
+`npx playwright test` — 9/9) também foi validada num segundo clone limpo (`/tmp`), verbatim como
+documentado no README.
 
 ## Review Triage Log
 
