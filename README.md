@@ -115,3 +115,19 @@ versionados em [`_bmad-output/specs/spec-censo-2022/`](_bmad-output/specs/spec-c
 - `stories/*.md` — spec de cada story, incluindo o Review Triage Log (achados de revisão, o que
   foi corrigido e o que foi deliberadamente deixado de fora, com justificativa).
 - `.memlog.md` — registro cronológico e append-only de toda decisão tomada durante o processo.
+
+## Sobre o tempo de execução
+
+O histórico de commits vai de 18:33 a 23:33 do dia 27/09, mas o tempo efetivo de
+desenvolvimento foi de aproximadamente 2h30, dentro do previsto pelo enunciado:
+
+- **18:33 – 20:46 (2h13)** — setup, exploração do dado, spec e planejamento com o
+  BMAD-METHOD, e as Stories 1 a 4: preparo do banco no build, API, as duas telas e o
+  Docker final com nginx.
+- **20:46 – 23:30** — pausa forçada: a cota de sessão da ferramenta de IA se esgotou e
+  só seria liberada às 23:30. Nenhum trabalho foi feito nesse intervalo.
+- **23:30 – 23:33** — Story 5 (README) e validação final das receitas de execução em
+  clone limpo.
+
+Cada story foi implementada, revisada em camadas independentes e commitada
+individualmente; os timestamps de cada commit refletem esse ciclo.
