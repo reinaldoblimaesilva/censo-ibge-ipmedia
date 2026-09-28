@@ -29,12 +29,17 @@ export interface MunicipioDetalhe {
  * Busca municípios por nome (insensível a acento/caixa), excluindo o registro
  * fantasma `cd_mun = '.'`. Chave de retorno é `cd_mun`; exibição "Nome — UF".
  *
- * Correspondências de nome exato (ex.: "São Domingos") vêm sempre antes de
- * correspondências parciais (ex.: "São Domingos do Prata") na ordenação, e o
- * limite padrão é pequeno (5) — o mesmo comportamento de autocomplete que faz
- * "sao domingos" devolver os 5 homônimos exatos (um por UF) sem que as
- * variantes com sufixo entrem na página, e "sao paulo" devolver São Paulo/SP
- * entre outras cidades cujo nome também contém o termo.
+ * Ordena por relevância: nomes que COMEÇAM com o termo vêm antes dos que
+ * apenas o CONTÊM, cada grupo em ordem alfabética — assim "ub" traz Ubatuba
+ * entre os primeiros resultados em vez de ficar atrás de Abaetetuba,
+ * Anajatuba etc. (que só contêm "ub"). Correspondências exatas (ex.: "São
+ * Domingos") caem no grupo "começa com" e, por serem sempre mais curtas que
+ * variantes com sufixo (ex.: "São Domingos do Prata"), a ordenação
+ * alfabética já as posiciona antes dentro do próprio grupo. O limite padrão
+ * é pequeno (5) — o mesmo comportamento de autocomplete que faz "sao
+ * domingos" devolver os 5 homônimos exatos (um por UF) sem que as variantes
+ * com sufixo entrem na página, e "sao paulo" devolver São Paulo/SP entre
+ * outras cidades cujo nome também contém o termo.
  */
 export function buscarMunicipios(termo: string, limite = 5): MunicipioResultadoBusca[] {
   const termoNormalizado = normalizarNome(termo.trim());
@@ -53,7 +58,7 @@ export function buscarMunicipios(termo: string, limite = 5): MunicipioResultadoB
       FROM municipio_resumo
       WHERE cd_mun != '.' AND nm_normalizado LIKE @padrao ESCAPE '\\'
       ORDER BY
-        CASE WHEN nm_normalizado = @termoExato THEN 0 ELSE 1 END ASC,
+        CASE WHEN nm_normalizado LIKE @padraoInicio ESCAPE '\\' THEN 0 ELSE 1 END ASC,
         nm_mun ASC,
         sigla_uf ASC
       LIMIT @limite
@@ -61,7 +66,7 @@ export function buscarMunicipios(termo: string, limite = 5): MunicipioResultadoB
     )
     .all({
       padrao: `%${padraoEscapado}%`,
-      termoExato: termoNormalizado,
+      padraoInicio: `${padraoEscapado}%`,
       limite,
     }) as { cdMun: string; nmMun: string; siglaUf: string }[];
 

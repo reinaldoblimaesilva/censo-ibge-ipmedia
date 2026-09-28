@@ -20,6 +20,19 @@ describe('municipio.service', () => {
     expect(ufsDistintas.size).toBe(5);
   });
 
+  it('busca "ub" (limite padrão) traz Ubatuba entre os primeiros resultados', () => {
+    // Ubatuba COMEÇA com "ub", enquanto Abaetetuba, Anajatuba etc. apenas
+    // CONTÊM "ub" — nomes que começam com o termo devem vir antes, senão
+    // Ubatuba fica atrás desses (ordem puramente alfabética) e é cortado
+    // pelo limite padrão.
+    const resultados = buscarMunicipios('ub');
+    const ubatuba = resultados.find((r) => r.cdMun === '3555406');
+
+    expect(ubatuba).toBeDefined();
+    expect(ubatuba?.rotulo).toBe('Ubatuba — SP');
+    expect(resultados.every((r) => r.nmMun.toLowerCase().startsWith('ub'))).toBe(true);
+  });
+
   it('busca "sao domingos" com limite maior traz também as variantes com sufixo', () => {
     const resultados = buscarMunicipios('sao domingos', 20);
     expect(resultados).toHaveLength(15);
